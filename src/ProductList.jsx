@@ -6,7 +6,6 @@ import { addItem } from './CartSlice'; // Adjust path if needed
 
 function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
-    const [showPlants, setShowPlants] = useState(false);
     const dispatch = useDispatch();
     const [addedToCart, setAddedToCart] = useState({});
 
@@ -22,7 +21,6 @@ function ProductList({ onHomeClick }) {
 
     const handlePlantsClick = (e) => {
         e.preventDefault();
-        setShowPlants(true);
         setShowCart(false);
     };
 
@@ -55,15 +53,13 @@ function ProductList({ onHomeClick }) {
                     description: "Filters formaldehyde and xylene from the air.",
                     cost: "$12"
                 }
-                // Add other plants here if needed
             ]
         }
-        // Add more categories if needed
     ];
 
     const styleObj = {
         backgroundColor: '#4CAF50',
-        color: '#fff!important',
+        color: '#fff',
         padding: '15px',
         display: 'flex',
         justifyContent: 'space-between',
@@ -90,7 +86,7 @@ function ProductList({ onHomeClick }) {
                 <div className="tag">
                     <div className="luxury">
                         <img src="https://cdn.pixabay.com/photo/2020/08/05/13/12/eco-5465432_1280.png" alt="" />
-                        <a href="/" onClick={(e) => handleHomeClick(e)}>
+                        <a href="/" onClick={handleHomeClick}>
                             <div>
                                 <h3 style={{ color: 'white' }}>Paradise Nursery</h3>
                                 <i style={{ color: 'white' }}>Where Green Meets Serenity</i>
@@ -99,8 +95,8 @@ function ProductList({ onHomeClick }) {
                     </div>
                 </div>
                 <div style={styleObjUl}>
-                    <div><a href="#" onClick={(e) => handlePlantsClick(e)} style={styleA}>Plants</a></div>
-                    <div><a href="#" onClick={(e) => handleCartClick(e)} style={styleA}>
+                    <div><a href="#" onClick={handlePlantsClick} style={styleA}>Plants</a></div>
+                    <div><a href="#" onClick={handleCartClick} style={styleA}>
                         <h1 className='cart'>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" height="68" width="68">
                                 <rect width="156" height="156" fill="none"></rect>
