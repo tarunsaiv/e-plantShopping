@@ -19,16 +19,16 @@ export const CartSlice = createSlice({
 
     // Remove a plant from the cart
     removeItem: (state, action) => {
-      const nameToRemove = action.payload;
-      state.items = state.items.filter(item => item.name !== nameToRemove);
+      const { name } = action.payload;
+      state.items = state.items.filter(item => item.name !== name);
     },
 
     // Update the quantity of a plant in the cart
     updateQuantity: (state, action) => {
-      const { name, amount } = action.payload;
+      const { name, quantity } = action.payload;
       const itemToUpdate = state.items.find(item => item.name === name);
       if (itemToUpdate) {
-        itemToUpdate.quantity = amount;
+        itemToUpdate.quantity = quantity;
       }
     },
   },
