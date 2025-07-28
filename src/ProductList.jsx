@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import './ProductList.css';
 import CartItem from './CartItem';
-import { useDispatch } from 'react-redux';
-import { addItem } from './CartSlice'; // Adjust path if needed
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem } from './CartSlice';
 
 function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
     const dispatch = useDispatch();
-    const [addedToCart, setAddedToCart] = useState({});
+    const cartItems = useSelector((state) => state.cart.items); // ⬅️ Get current cart from Redux
 
     const handleHomeClick = (e) => {
         e.preventDefault();
@@ -31,10 +31,6 @@ function ProductList({ onHomeClick }) {
 
     const handleAddToCart = (plant) => {
         dispatch(addItem(plant));
-        setAddedToCart((prev) => ({
-            ...prev,
-            [plant.name]: true
-        }));
     };
 
     const plantsArray = [
@@ -117,19 +113,23 @@ function ProductList({ onHomeClick }) {
                         <div key={index} className="plant-category">
                             <h2>{category.category}</h2>
                             <div className="plant-list">
-                                {category.plants.map((plant, i) => (
-                                    <div key={i} className="plant-card">
-                                        <img src={plant.image} alt={plant.name} className="plant-image" />
-                                        <h3>{plant.name}</h3>
-                                        <p>{plant.description}</p>
-                                        <p className="price">{plant.cost}</p>
-                                        <button
-                                            onClick={() => handleAddToCart(plant)}
-                                            disabled={addedToCart[plant.name]}>
-                                            {addedToCart[plant.name] ? "Added" : "Add to Cart"}
-                                        </button>
-                                    </div>
-                                ))}
+                                {category.plants.map((plant, i) => {
+                                    const isInCart = cartItems.some(item => item.name === plant.name);
+
+                                    return (
+                                        <div key={i} className="plant-card">
+                                            <img src={plant.image} alt={plant.name} className="plant-image" />
+                                            <h3>{plant.name}</h3>
+                                            <p>{plant.description}</p>
+                                            <p className="price">{plant.cost}</p>
+                                            <button
+                                                onClick={() => handleAddToCart(plant)}
+                                                disabled={isInCart}>
+                                                {isInCart ? "Added" : "Add to Cart"}
+                                            </button>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
                     ))}
